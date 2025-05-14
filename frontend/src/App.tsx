@@ -6,23 +6,41 @@ function App() {
   const [name, setName] = useState('');
   const [response, setResponse] = useState('');
 
+  // Use an environment variable or fallback to localhost
+  const API_URL = process.env.REACT_APP_API_URL || 'http://192.168.0.114:5000';
+
   useEffect(() => {
-    fetch('http://localhost:5000/names')
-      .then(res => res.json())
-      .then(data => setMessage(JSON.stringify(data)));
-  }, []);
+    fetch(`${API_URL}/names`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => setMessage(JSON.stringify(data)))
+      .catch((err) => console.error('Fetch error:', err));
+  }, [API_URL]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch('http://localhost:5000/name', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name }),
-    });
+    try {
+      const res = await fetch(`${API_URL}/name`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
 
-    const data = await res.json();
-    setResponse(data.message);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setResponse(data.message);
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setResponse('Failed to submit name. Please try again.');
+    }
   };
 
   return (
