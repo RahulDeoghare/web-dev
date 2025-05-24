@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches the App component snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="App"
+  >
+    <h1>
+      Enter Your Name
+    </h1>
+    <form>
+      <input
+        placeholder="Your name"
+        type="text"
+        value=""
+      />
+      <button
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+    <p />
+    <h2>
+      All Names:
+    </h2>
+    <pre>
+      []
+    </pre>
+  </div>
+</DocumentFragment>
+`;

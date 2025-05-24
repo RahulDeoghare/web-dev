@@ -7,7 +7,7 @@ function App() {
   const [response, setResponse] = useState('');
 
   // Use an environment variable or fallback to localhost
-  const API_URL = process.env.REACT_APP_API_URL || 'http://192.168.0.114:5000';
+  const API_URL = process.env.REACT_APP_API_URL || 'http://192.168.29.119:5000';
 
   useEffect(() => {
     fetch(`${API_URL}/names`)
@@ -23,6 +23,11 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!name.trim()) {
+      setResponse('Name is required.');
+      return;
+    }
 
     try {
       const res = await fetch(`${API_URL}/name`, {
